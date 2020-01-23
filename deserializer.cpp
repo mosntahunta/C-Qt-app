@@ -23,6 +23,11 @@ Deserializer::load( QUrl url )
     }
     QJsonParseError JsonParseError;
     QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+
+    if ( JsonDocument.isEmpty() )
+    {
+        qWarning(JsonParseError.errorString().toLatin1().data()); // print error string
+    }
     file.close();
 
     // Update model

@@ -79,7 +79,7 @@ bool
 ListModel::removeRows( int row, int count, const QModelIndex &parent )
 {
     int final_row_to_remove = row + count - 1;
-    if( final_row_to_remove >= keys.size() )
+    if( final_row_to_remove >= keys.size() && row >= 0 )
     {
         qWarning("Rows to remove cannot be out of range of the list.");
         return false;
@@ -149,10 +149,13 @@ ListModel::addToModel( QString key, QString value )
 void
 ListModel::removeFromModel( int index )
 {
-    QString key = keys[index];
-    Q_ASSERT(map.find(key) != map.end());
-    Q_ASSERT(map.size() == keys.size());
+    if ( index >= 0  && index < keys.size() )
+    {
+        QString key = keys[index];
+        Q_ASSERT(map.find(key) != map.end());
+        Q_ASSERT(map.size() == keys.size());
 
-    keys.removeAt(index);
-    map.remove(key);
+        keys.removeAt(index);
+        map.remove(key);
+    }
 }
